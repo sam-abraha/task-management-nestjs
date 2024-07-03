@@ -33,28 +33,9 @@ export class TasksController {
             return this.tasksService.updateTaskStatus(id, status);
     }
 
-    /*
-
-        @Post()
-    createTask(@Body() createTaskDto : CreateTaskDto) {
-         return this.tasksService.createTask(createTaskDto);
-    }
 
     @Get()
-    getTasks(@Query() filterTaskDto : GetTasksFilterDto) : Task[] {
-
-        if(Object.keys(filterTaskDto).length) {
-            return this.tasksService.getTasksWithFilter(filterTaskDto);
-        }
-        else {
-            return this.tasksService.getAllTasks();
-        }
+    getTasks(@Query() filterTaskDto : GetTasksFilterDto) : Promise<Task[]> {
+        return this.tasksService.getTasks(filterTaskDto);
     }
-
-    @Get('/:id') 
-    getTaskById(@Param('id') id : string) : Task {
-        return this.tasksService.getTaskById(id);
-    }
-
-     */
 }
