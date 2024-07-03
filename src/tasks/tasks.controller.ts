@@ -4,10 +4,21 @@ import { TaskStatus } from './task-status.enum';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/filter-task.dto';
 import { UpdateTasksDto } from './dto/update.task.dto';
+import { Task } from './dto/task.entity.dto';
 
 @Controller('tasks')
 export class TasksController {
     constructor(private tasksService : TasksService) {}
+
+    @Get('/:id') 
+    getTaskById(@Param('id') id : string) : Promise<Task> {
+        return this.tasksService.getTaskById(id);
+    }
+
+    @Post()
+    createTask(@Body() createTaskDto : CreateTaskDto) : Promise<Task>{
+         return this.tasksService.createTask(createTaskDto);
+    }
 
     /*
 
