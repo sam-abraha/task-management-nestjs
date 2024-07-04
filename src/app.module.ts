@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Task } from './tasks/task.entity';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/user.entity';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { FilterUserInterceptor } from './filter-user.interceptor';
 
 @Module({
   imports: [
@@ -24,6 +26,12 @@ import { User } from './auth/user.entity';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: FilterUserInterceptor,
+    },
+  ],
 })
 export class AppModule {}
