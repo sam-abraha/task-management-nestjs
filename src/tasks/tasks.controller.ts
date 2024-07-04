@@ -4,7 +4,7 @@ import { TaskStatus } from './task-status.enum';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/filter-task.dto';
 import { UpdateTasksDto } from './dto/update.task.dto';
-import { Task } from './dto/task.entity.dto';
+import { Task } from './task.entity';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('tasks')

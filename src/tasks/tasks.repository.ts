@@ -1,5 +1,5 @@
 import { DataSource, Repository } from "typeorm";
-import { Task } from "./dto/task.entity.dto";
+import { Task } from "./task.entity";
 import { CreateTaskDto } from "./dto/create-task.dto";
 import { TaskStatus } from "./task-status.enum";
 import { GetTasksFilterDto } from "./dto/filter-task.dto";

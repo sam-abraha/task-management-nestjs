@@ -1,4 +1,6 @@
 import { IsString, MaxLength, MinLength, Matches} from "class-validator";
+import { Task } from "src/tasks/task.entity";
+import { OneToMany } from "typeorm";
 export class AuthCredentialsDto {
 
     @IsString()
@@ -13,4 +15,9 @@ export class AuthCredentialsDto {
         message: `Password is too weak. Passwords must contain at least: -1 upper case letter, - 1 lower case letter, - 1 number or special character.`,
       })
     password : string;
+
+    @OneToMany((_type)=> Task, (task) => task.user, {
+        eager : true
+    })
+    task : Task[]
 }
