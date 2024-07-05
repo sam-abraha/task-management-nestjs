@@ -8,24 +8,34 @@ import { AuthModule } from './auth/auth.module';
 import { User } from './auth/user.entity';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { FilterUserInterceptor } from './filter-user.interceptor';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: [`.env.stage.${process.env.STAGE}`]
+    }),
     TasksModule,
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'task-management',
-      autoLoadEntities: true,
-      synchronize: true,
-      entities: [Task, User],
+    TypeOrmModule.forRootAsync({
+      imports : [ConfigModule],
+      inject : [ConfigService],
+      useFactory : async (configSerivce : ConfigService) => {
+        return {
+          type: 'postgres',
+          host: configSerivce.get('DB_HOST'),
+          port: configSerivce.get('DB_PORT'),
+          username: configSerivce.get('DB_USERNAME'),
+          password: configSerivce.get('DB_PASSWORD'),
+          database: configSerivce.get('DB_DATABASE'),
+          autoLoadEntities: true,
+          synchronize: true,
+          entities: [Task, User],
+          controllers: [AppController],
+        }
+      }
     }),
     AuthModule,
   ],
-  controllers: [AppController],
   providers: [
     AppService,
     {
