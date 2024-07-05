@@ -31,14 +31,16 @@ export class TasksController {
     deleteTask(@Param('id') id : string) : Promise<void> {
         return this.tasksService.deleteTask(id);
     }
-/*
+
     @Patch('/:id/status')
     updateTaskStatus(
         @Param('id') id : string, 
-        @Body() updateTaskDto : UpdateTasksDto): Promise<Task> {
+        @Body() updateTaskDto : UpdateTasksDto,
+        @GetUser() user : User,
+    ): Promise<Task> {
             const { status } = updateTaskDto;
-            return this.tasksService.updateTaskStatus(id, status);
-    }*/
+            return this.tasksService.updateTaskStatus(id, status, user);
+    }
 
 
     @Get()
