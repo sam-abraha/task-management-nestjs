@@ -9,11 +9,13 @@ import { User } from './auth/user.entity';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { FilterUserInterceptor } from './filter-user.interceptor';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { configSchema } from './config.schema';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: [`.env.stage.${process.env.STAGE}`]
+      envFilePath: [`.env.stage.${process.env.STAGE}`],
+      validationSchema : configSchema,
     }),
     TasksModule,
     TypeOrmModule.forRootAsync({
