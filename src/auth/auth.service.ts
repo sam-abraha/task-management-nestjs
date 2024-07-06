@@ -6,6 +6,7 @@ import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwt-payload.interface';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +20,10 @@ export class AuthService {
         return this.usersRepository.createUser(authCredialsDto);
     }
 
-    async signIn(authCredentialsDto : AuthCredentialsDto) : Promise<{accessToken : string }> {
+    async signIn(
+        authCredentialsDto : AuthCredentialsDto,
+        res : Response,
+    ) : Promise<void> {
         const { username, password } = authCredentialsDto;
 
         const user = await this.usersRepository.findOne({
@@ -31,7 +35,15 @@ export class AuthService {
         if (user && (await bcrypt.compare(password, user.password))) {
             const payload : JwtPayload = { username };
             const accessToken = await this.jwtService.sign(payload);
-            return { accessToken };
+
+            res.cookie('accessToken',accessToken, {
+                httpOnly : true,
+                secure : true,
+                sameSite : 'none',
+                maxAge : 3600000,
+            });
+
+            res.sendStatus(200);
           } else {
             throw new UnauthorizedException('Invalid credentials');
           }
