@@ -36,7 +36,7 @@ export class TasksRepository extends Repository<Task> {
     const task = this.create({
       title,
       description,
-      status: TaskStatus.OPEN,
+      status: TaskStatus.TO_DO,
       user
     });
 
