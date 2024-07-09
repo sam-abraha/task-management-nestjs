@@ -5,6 +5,7 @@ import { FilterUserInterceptor } from './filter-user.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors({ credentials : true, origin : 'http://localhost:5173'});
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new FilterUserInterceptor())
   await app.listen(3000);
