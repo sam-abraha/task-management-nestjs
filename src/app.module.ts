@@ -24,7 +24,7 @@ import { configSchema } from './config.schema';
       useFactory : async (configSerivce : ConfigService) => {
         return {
           type: 'postgres',
-          url : configSerivce.get('DB_URL'),
+          url : configSerivce.get('DATABASE_URL'),
           autoLoadEntities: true,
           synchronize: false,
           entities: [Task, User],
