@@ -21,14 +21,10 @@ import { configSchema } from './config.schema';
     TypeOrmModule.forRootAsync({
       imports : [ConfigModule],
       inject : [ConfigService],
-      useFactory : async (configSerivce : ConfigService) => {
+      useFactory : async (configService : ConfigService) => {
         return {
           type: 'postgres',
-          host: configSerivce.get('DB_HOST'),
-          port: configSerivce.get('DB_PORT'),
-          username: configSerivce.get('DB_USERNAME'),
-          password: configSerivce.get('DB_PASSWORD'),
-          database: configSerivce.get('DB_DATABASE'),
+          url: process.env.DATABASE_URL,
           autoLoadEntities: true,
           synchronize: true,
           entities: [Task, User],
